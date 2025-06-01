@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy.integrate import odeint
+import runge_kutta.py as rk
 
 def sim_vehicle_model(delta,v,time,beta,dot_phai):
     m = 2000
@@ -22,5 +23,7 @@ def sim_vehicle_model(delta,v,time,beta,dot_phai):
 
     return dot_beta, ddot_phai
 
-ans = sim_vehicle_model(1,1,1,1,1)
-print(ans)
+
+
+# ans = sim_vehicle_model(1,1,1,1,1)
+# print(ans)
