@@ -27,7 +27,7 @@ def sim_vehicle_model(delta,v,time,beta,dot_phai):
 
 
 # #########
-v = 17 # m/s
+v = 10 # m/s
 t_finish = 5
 dt = 0.001  # シミュレーションの時間ステップ
 
