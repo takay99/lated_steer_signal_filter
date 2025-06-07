@@ -1,16 +1,21 @@
 from typing import Callable
+import numpy as np
+import numpy.typing as npt
 
 
 def rk4_step(
     f: (
-        Callable[[list[float], float, list[float]], list[float]]
-        | Callable[[list[float], float], list[float]]
+        Callable[
+            [npt.NDArray[np.floating], float, npt.NDArray[np.floating]],
+            npt.NDArray[np.floating],
+        ]
+        | Callable[[npt.NDArray[np.floating], float], npt.NDArray[np.floating]]
     ),
-    current_integrate_value: list[float],
+    current_integrate_value: npt.NDArray[np.floating],
     current_time: float,
     h_step: float,
-    variation: list[float] | None = None,
-) -> list[float]:
+    variation: npt.NDArray[np.floating] | None = None,
+) -> npt.NDArray[np.floating]:
     """
     4次ルンゲクッタ法を1ステップ実行します。
 
@@ -75,4 +80,4 @@ def rk4_step(
             + (h_step / 6.0) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i])
         )
 
-    return next_value
+    return np.array(next_value)
