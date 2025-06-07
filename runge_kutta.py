@@ -2,11 +2,14 @@ from typing import Callable
 
 
 def rk4_step(
-    f: Callable[[list[float], float, list[float]], list[float]],
+    f: (
+        Callable[[list[float], float, list[float]], list[float]]
+        | Callable[[list[float], float], list[float]]
+    ),
     current_integrate_value: list[float],
-    variation: list[float],
     current_time: float,
     h_step: float,
+    variation: list[float] | None = None,
 ) -> list[float]:
     """
     4次ルンゲクッタ法を1ステップ実行します。
@@ -24,7 +27,10 @@ def rk4_step(
     """
 
     # K1
-    k1 = f(current_integrate_value, current_time, variation)
+    if variation is None:
+        k1 = f(current_integrate_value, current_time)
+    else:
+        k1 = f(current_integrate_value, current_time, variation)
     assert len(k1) == len(current_integrate_value), "長さ一緒にしろ"
 
     # K2
@@ -32,7 +38,10 @@ def rk4_step(
     for i in range(len(current_integrate_value)):
         tmp = current_integrate_value[i] + 0.5 * h_step * k1[i]
         arr.append(tmp)
-    k2 = f(arr, current_time + 0.5 * h_step, variation)
+    if variation is None:
+        k2 = f(arr, current_time + 0.5 * h_step)
+    else:
+        k2 = f(arr, current_time + 0.5 * h_step, variation)
     assert len(k2) == len(current_integrate_value), "長さ一緒にしろ"
 
     # K3
@@ -40,7 +49,10 @@ def rk4_step(
     for i in range(len(current_integrate_value)):
         tmp = current_integrate_value[i] + 0.5 * h_step * k2[i]
         arr.append(tmp)
-    k3 = f(arr, current_time + 0.5 * h_step, variation)
+    if variation is None:
+        k3 = f(arr, current_time + 0.5 * h_step)
+    else:
+        k3 = f(arr, current_time + 0.5 * h_step, variation)
     assert len(k3) == len(current_integrate_value), "長さ一緒にしろ"
 
     # K4
@@ -48,7 +60,10 @@ def rk4_step(
     for i in range(len(current_integrate_value)):
         tmp = current_integrate_value[i] + h_step * k3[i]
         arr.append(tmp)
-    k4 = f(arr, current_time + h_step, variation)
+    if variation is None:
+        k4 = f(arr, current_time + h_step)
+    else:
+        k4 = f(arr, current_time + h_step, variation)
     assert len(k4) == len(current_integrate_value), "長さ一緒にしろ"
 
     # beta と dot_phai を更新

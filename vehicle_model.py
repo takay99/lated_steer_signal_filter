@@ -64,7 +64,7 @@ def sim_vehicle(delta, v, t_finish, dt):
         dot_phai_list.append(dot_phai)
 
         # RK4 を使って次のステップを計算
-        beta, dot_phai = rk4_step(f, (beta, dot_phai), (input_delta, v), t, dt)
+        beta, dot_phai = rk4_step(f, [beta, dot_phai], t, dt, [input_delta, v])
 
     # 結果を Pandas DataFrame に保存
     df = pd.DataFrame({"time": t_list, "beta": beta_list, "dot_phai": dot_phai_list})
